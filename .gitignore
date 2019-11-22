@@ -1,0 +1,8 @@
+.idea
+cmake-build-debug
+*.o
+*.a
+*.exe
+*/.DS_Store
+minilibx_macos
+fractol
