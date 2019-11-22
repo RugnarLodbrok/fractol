@@ -15,6 +15,9 @@ include_directories(headers)
 
 add_executable(fractol
 		src/main.c
+		src/app.c
+		src/controller.c
+		src/framebuffer.c
 
 
 		libft/src/string/ft_atoi.c

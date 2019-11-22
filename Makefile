@@ -15,6 +15,9 @@ NAME = fractol
 FLAGS = -Wall -Wextra -Werror
 
 SRC = \
+		src/app.c \
+		src/controller.c \
+		src/framebuffer.c \
 		src/main.c
 
 OPTION = -I. -Ilibft -Iminilibx_macos

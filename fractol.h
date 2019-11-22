@@ -1,0 +1,82 @@
+#ifndef FRACTOL_H
+# define FRACTOL_H
+
+# define WIN_W 800
+# define WIN_H 600
+# define FRAME_RATE 120
+# define FRAME_TIME 1./FRAME_RATE
+
+# define MLX_EVEN_KEY_PRESS 2
+# define MLX_EVEN_KEY_RELEASE 3
+# define MLX_EVENT_EXIT 17
+
+# define BLUE 1
+# define GREEN 256
+# define RED (256*256)
+# define ALPHA (256*256*256)
+# define GRAYSCALE (RED + GREEN + BLUE)
+# define WHITE (255 * GRAYSCALE)
+
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_DOWN 125
+# define KEY_UP 126
+# define KEY_W 13
+# define KEY_A 0
+# define KEY_S 1
+# define KEY_D 2
+# define KEY_Q 12
+# define KEY_E 14
+# define KEY_ESC 53
+# define KEY_I 34
+# define KEY_P 35
+# define KEY_PLUS 69
+# define KEY_MINUS 78
+# define KEY_HOME 115
+# define KEY_END 119
+
+#include "libft.h"
+#include "ft_linalg.h"
+
+typedef struct
+{
+	double re;
+	double im;
+} t_complex;
+
+typedef struct
+{
+	int w;
+	int h;
+	void *image;
+	uint *data;
+	int bpp;
+	int endian;
+	int row_len;
+} t_framebuffer;
+
+typedef struct
+{
+	int keyboard[128];
+} t_controller;
+
+
+typedef struct
+{
+	int w;
+	int h;
+	int sidebar_w;
+	void *M;
+	void *win;
+	t_framebuffer framebuffer;
+	time_t time;
+	time_t frame_time;
+	t_controller controller;
+} t_app;
+
+void t_app_init(t_app *app);
+
+void mlx_bind_keys(void *win, t_controller *c);
+void t_framebuffer_init(t_framebuffer *fb, void *mlx, int w, int h);
+
+#endif
