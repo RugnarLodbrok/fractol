@@ -19,7 +19,6 @@ add_executable(fractol
 		src/controller.c
 		src/framebuffer.c
 
-
 		libft/src/string/ft_atoi.c
 		libft/src/string/ft_bzero.c
 		libft/src/string/ft_isalnum.c
@@ -55,6 +54,7 @@ add_executable(fractol
 		libft/src/string/ft_striteri.c
 		libft/src/string/ft_strjoin.c
 		libft/src/string/ft_strlcat.c
+		libft/src/string/ft_strlcpy.c
 		libft/src/string/ft_strlen.c
 		libft/src/string/ft_strmap.c
 		libft/src/string/ft_strmapi.c
@@ -71,10 +71,13 @@ add_executable(fractol
 		libft/src/string/ft_strtrim.c
 		libft/src/string/ft_tolower.c
 		libft/src/string/ft_toupper.c
+		libft/src/string/ft_strrev.c
+		libft/src/string/ft_startswith.c
 
 		libft/src/format/ft_itoa.c
 		libft/src/format/ft_ultoa.c
 		libft/src/format/ft_ftoa.c
+		libft/src/format/ft_ftobin.c
 
 		libft/src/list/ft_lstadd.c
 		libft/src/list/ft_lstaddend.c
@@ -92,7 +95,15 @@ add_executable(fractol
 
 		libft/src/linalg/matrix.c
 		libft/src/linalg/matrix_invert.c
+		libft/src/linalg/matrix_arithmetic.c
+		libft/src/linalg/matrix_transform.c
 		libft/src/linalg/vector.c
+		libft/src/linalg/vector_arithmetic.c
+		libft/src/linalg/vector_transform.c
+
+		libft/src/hash_table/hash_table.c
+		libft/src/hash_table/hash_table2.c
+		libft/src/hash_table/hash.c
 
 		libft/src/ft_alloc.c
 		libft/src/ft_swap.c
@@ -101,17 +112,33 @@ add_executable(fractol
 		libft/src/endian.c
 		libft/src/ft_error_exit.c
 
+		libft/src/array/array.c
+		libft/src/array/arrayi.c
+
 		libft/src/printf/ft_printf.c
 		libft/src/printf/spec_parse.c
 		libft/src/printf/conversion.c
+		libft/src/printf/convert.c
+		libft/src/printf/apply_fw.c
+
+		mlx_glut/src/mlx.c
+		mlx_glut/src/mlx_hook.c
+		mlx_glut/src/mlx_image.c
+		mlx_glut/src/mlx_keys.c
 		)
 include_directories(headers)
 include_directories(libft)
-include_directories(minilibx_macos)
-#add_compile_options(-framework OpenGL -framework AppKit)
+
+include_directories(glut)
+include_directories(mlx_glut)
 target_link_libraries(fractol
-		LINK_PUBLIC ${CMAKE_SOURCE_DIR}/libft/libft.a
-		LINK_PUBLIC ${CMAKE_SOURCE_DIR}/minilibx_macos/libmlx.a
-		"-framework OpenGL"
-		"-framework AppKit"
-		)
+		LINK_PUBLIC ${CMAKE_SOURCE_DIR}/glut/freeglut.lib
+		LINK_PUBLIC ${CMAKE_SOURCE_DIR}/glut/freeglutd.lib)
+
+#include_directories(minilibx_macos)
+#target_link_libraries(fractol
+#		LINK_PUBLIC ${CMAKE_SOURCE_DIR}/libft/libft.a
+#		LINK_PUBLIC ${CMAKE_SOURCE_DIR}/minilibx_macos/libmlx.a
+#		"-framework OpenGL"
+#		"-framework AppKit"
+#		)
