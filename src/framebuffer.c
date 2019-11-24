@@ -43,14 +43,22 @@ void t_framebuffer_clear(t_framebuffer *fb)
 	ft_bzero(fb->data, fb->row_len * WIN_H * sizeof(int));
 }
 
-void put_pixel(t_app *app, int x, int y, uint color)
+void fb_put_pixel(t_framebuffer *fb, int x, int y, uint color)
+{
+
+	if (x < 0 || y < 0 || x >= fb->w || y >= fb->h)
+		return;
+	fb->data[y * fb->row_len + x] = color;
+}
+
+void fb_put_pixel_alpha(t_framebuffer *fb, int x, int y, uint color)
 {
 	unsigned char a;
 	uint *d;
 
-	if (x < 0 || y < 0 || x >= app->w || y >= app->h)
+	if (x < 0 || y < 0 || x >= fb->w || y >= fb->h)
 		return;
 	a = color >> 24;
-	d = &app->framebuffer.data[y * app->framebuffer.row_len + x];
+	d = &fb->data[y * fb->row_len + x];
 	*d = blend_alpha(*d, color, a);
 }

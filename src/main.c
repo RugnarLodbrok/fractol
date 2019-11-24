@@ -3,15 +3,59 @@
 #include "mlx.h"
 #include <time.h>
 
-void update(t_app *app, double dt)
+uint iteration_color(int iteration)
 {
-	(void)app;
-	(void)dt;
+	return (iteration % 25) * 10 * RED;
 }
 
-int		loop_hook(t_app *app)
+uint mandelbrot_pixel(double x, double y)
 {
-	double	dt;
+	int iterations;
+	t_complex z;
+	int i;
+
+	iterations = 100;
+	z = (t_complex){0, 0};
+	i = -1;
+	while (++i < iterations)
+	{
+		z = (t_complex){z.re * z.re - z.im * z.im + x, z.re * z.im * 2 + y};
+		if (z.re * z.re + z.im * z.im > 4)
+			return iteration_color(i);
+	}
+	return (0);
+}
+
+void draw_fractol(t_framebuffer *f)
+{
+	int i;
+	int j;
+	double x;
+	double y;
+
+	i = -1;
+	while (++i < f->w)
+	{
+		j = -1;
+		while (++j < f->h)
+		{
+			x = (double)(i - 2 * f->w / 3) / 200;
+			y = (double)(j - f->h / 2) / 200;
+			fb_put_pixel(f, i, j, mandelbrot_pixel(x, y));
+		}
+	}
+}
+
+void update(t_app *app, double dt)
+{
+	t_framebuffer_clear(&app->framebuffer);
+	draw_fractol(&app->framebuffer);
+	mlx_put_image_to_window(app->M, app->win, app->framebuffer.image, 0, 0);
+}
+
+int loop_hook(t_app *app)
+{
+	double dt;
 
 	app->time = clock();
 	dt = (double)(app->time - app->frame_time) / CLOCKS_PER_SEC;
@@ -23,7 +67,7 @@ int		loop_hook(t_app *app)
 	return (0);
 }
 
-int		close_hook(void *param)
+int close_hook(void *param)
 {
 	(void)param;
 	exit(0);
