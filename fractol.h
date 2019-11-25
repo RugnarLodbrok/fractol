@@ -72,6 +72,7 @@ typedef struct
 
 typedef struct
 {
+	int zoom;
 	t_mat m; //model-view
 	t_mat d; //display
 	t_mat mi;

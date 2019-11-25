@@ -1,4 +1,5 @@
 #include <time.h>
+#include <math.h>
 #include "mlx.h"
 #include "fractol.h"
 
@@ -18,8 +19,16 @@ static void t_view_init(t_view *v, int w, int h)
 
 void t_view_move(t_view *v, t_controller *c)
 {
-	v->mi.data[0][3] -= .01 * c->dx;
-	v->mi.data[1][3] -= .01 * c->dy;
+	double z;
+	double step;
+
+	v->zoom += c->dz;
+	z = exp((double)v->zoom / 100.);
+	step = .01 * z;
+	v->mi.data[0][3] -= step * c->dx;
+	v->mi.data[1][3] -= step * c->dy;
+	v->mi.data[0][0] = z;
+	v->mi.data[1][1] = z;
 }
 
 static int close_hook(void *param)
