@@ -17,14 +17,14 @@ static void t_view_init(t_view *v, int w, int h)
 	v->mi = t_mat_inverted(v->m);
 }
 
-void t_view_move(t_view *v, t_controller *c)
+void t_view_move(t_view *v, t_controller *c, double dt)
 {
 	double z;
 	double step;
 
 	v->zoom += c->dz;
 	z = exp((double)v->zoom / 100.);
-	step = .01 * z;
+	step = dt * z * .6;
 	v->mi.data[0][3] -= step * c->dx;
 	v->mi.data[1][3] -= step * c->dy;
 	v->mi.data[0][0] = z;

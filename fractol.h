@@ -103,7 +103,7 @@ void mlx_bind_keys(void *win, t_controller *c);
 void t_framebuffer_init(t_framebuffer *fb, void *mlx, int w, int h);
 void t_framebuffer_clear(t_framebuffer *fb);
 void fb_put_pixel(t_framebuffer *fb, int x, int y, uint color);
-void t_view_move(t_view *v, t_controller *c);
+void t_view_move(t_view *v, t_controller *c, double dt);
 uint hue_spiral(int iteration);
 
 #endif
