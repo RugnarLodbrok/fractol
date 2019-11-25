@@ -18,6 +18,9 @@ add_executable(fractol
 		src/app.c
 		src/controller.c
 		src/framebuffer.c
+		src/threading.c
+		src/threads_test.c
+		src/palette.c
 
 		libft/src/string/ft_atoi.c
 		libft/src/string/ft_bzero.c

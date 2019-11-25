@@ -1,12 +1,5 @@
 #include "libft.h"
 #include "fractol.h"
-#include "mlx.h"
-#include <time.h>
-
-uint iteration_color(int iteration)
-{
-	return (iteration % 25) * 10 * RED;
-}
 
 uint mandelbrot_pixel(double x, double y)
 {
@@ -14,24 +7,23 @@ uint mandelbrot_pixel(double x, double y)
 	t_complex z;
 	int i;
 
-	iterations = 100;
+	iterations = 30;
 	z = (t_complex){0, 0};
 	i = -1;
 	while (++i < iterations)
 	{
 		z = (t_complex){z.re * z.re - z.im * z.im + x, z.re * z.im * 2 + y};
 		if (z.re * z.re + z.im * z.im > 4)
-			return iteration_color(i);
+			return hue_spiral(i);
 	}
 	return (0);
 }
 
-void draw_fractol(t_framebuffer *f)
+void draw_fractol(t_framebuffer *f, t_mat m)
 {
 	int i;
 	int j;
-	double x;
-	double y;
+	t_vec p;
 
 	i = -1;
 	while (++i < f->w)
@@ -39,48 +31,28 @@ void draw_fractol(t_framebuffer *f)
 		j = -1;
 		while (++j < f->h)
 		{
-			x = (double)(i - 2 * f->w / 3) / 200;
-			y = (double)(j - f->h / 2) / 200;
-			fb_put_pixel(f, i, j, mandelbrot_pixel(x, y));
+			p = t_vec_transform((t_vec){i, j, 0}, m);
+			fb_put_pixel(f, i, j, mandelbrot_pixel(p.x, p.y));
 		}
 	}
 }
 
 void update(t_app *app, double dt)
 {
-	t_framebuffer_clear(&app->framebuffer);
-	draw_fractol(&app->framebuffer);
-	mlx_put_image_to_window(app->M, app->win, app->framebuffer.image, 0, 0);
+	t_view_move(&app->view, &app->controller);
+	draw_fractol(&app->framebuffer, t_mat_mul_ref(&app->view.mi, &app->view.di));
 }
 
-int loop_hook(t_app *app)
+int fractol()
 {
-	double dt;
+	t_app app;
 
-	app->time = clock();
-	dt = (double)(app->time - app->frame_time) / CLOCKS_PER_SEC;
-	if (dt > FRAME_TIME)
-	{
-		app->frame_time = app->time;
-		update(app, dt);
-	}
+	t_app_init(&app, update);
+	t_app_run(&app);
 	return (0);
-}
-
-int close_hook(void *param)
-{
-	(void)param;
-	exit(0);
 }
 
 int main()
 {
-	t_app app;
-
-	t_app_init(&app);
-//	print_info(&app);
-	mlx_loop_hook(app.M, loop_hook, &app);
-	mlx_hook(app.win, MLX_EVENT_EXIT, 0, &close_hook, 0);
-	mlx_loop(app.M);
-	return (0);
+	fractol();
 }

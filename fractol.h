@@ -65,10 +65,22 @@ typedef struct
 typedef struct
 {
 	int keyboard[128];
+	int dx;
+	int dy;
+	int dz;
 } t_controller;
 
-
 typedef struct
+{
+	t_mat m; //model-view
+	t_mat d; //display
+	t_mat mi;
+	t_mat di;
+} t_view;
+
+typedef struct s_app t_app;
+
+typedef struct s_app
 {
 	int w;
 	int h;
@@ -79,13 +91,17 @@ typedef struct
 	time_t time;
 	time_t frame_time;
 	t_controller controller;
+	t_view view;
+	void (*update)(t_app *app, double dt);
 } t_app;
 
-void t_app_init(t_app *app);
-
+void t_app_init(t_app *app, void (*update)(t_app *app, double dt));
+void t_app_run(t_app *app);
 void mlx_bind_keys(void *win, t_controller *c);
 void t_framebuffer_init(t_framebuffer *fb, void *mlx, int w, int h);
 void t_framebuffer_clear(t_framebuffer *fb);
 void fb_put_pixel(t_framebuffer *fb, int x, int y, uint color);
+void t_view_move(t_view *v, t_controller *c);
+uint hue_spiral(int iteration);
 
 #endif
