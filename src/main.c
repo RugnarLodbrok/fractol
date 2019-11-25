@@ -27,8 +27,9 @@ void draw_fractol(t_framebuffer *f, t_mat m, int tpool_c, int tpool_i)
 	int j;
 	t_vec p;
 
-	i = -1;
-	while (++i < f->w)
+	i = -tpool_c;
+	i += tpool_i;
+	while ((i += tpool_c) < f->w)
 	{
 		j = -1;
 		while (++j < f->h)
@@ -59,13 +60,12 @@ void fractol_renderer(t_app *app, int tpool_c, int tpool_i)
 int fractol()
 {
 	t_app app;
-	t_thread renderer_t;
+	t_tpool renderer;
 
 	t_app_init(&app, update);
-	renderer_t = t_thread_create(fractol_renderer, &app);
-//	draw_fractol(&app.framebuffer, t_mat_mul_ref(&app.view.mi, &app.view.di));
-	if (t_thread_start(&renderer_t))
-		t_app_run(&app);
+	renderer = t_tpool_create(6, fractol_renderer, &app);
+	t_poool_start(&renderer);
+	t_app_run(&app);
 	return (0);
 }
 
