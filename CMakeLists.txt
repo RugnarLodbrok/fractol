@@ -22,6 +22,7 @@ add_executable(fractol
 		src/thread_pool.c
 		src/threads_test.c
 		src/palette.c
+		src/fractol_v1.c
 
 		libft/src/string/ft_atoi.c
 		libft/src/string/ft_bzero.c
