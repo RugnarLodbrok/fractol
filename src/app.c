@@ -37,9 +37,7 @@ static int loop_hook(t_app *app)
 	if (dt > FRAME_TIME)
 	{
 		app->frame_time = app->time;
-		t_framebuffer_clear(&app->framebuffer);
 		app->update(app, dt);
-		mlx_put_image_to_window(app->M, app->win, app->framebuffer.image, app->sidebar_w, 0);
 	}
 	return (0);
 }

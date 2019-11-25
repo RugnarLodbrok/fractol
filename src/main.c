@@ -1,5 +1,7 @@
 #include "libft.h"
 #include "fractol.h"
+#include "threading.h"
+#include "mlx.h"
 
 uint mandelbrot_pixel(double x, double y)
 {
@@ -19,7 +21,7 @@ uint mandelbrot_pixel(double x, double y)
 	return (0);
 }
 
-void draw_fractol(t_framebuffer *f, t_mat m)
+void draw_fractol(t_framebuffer *f, t_mat m, int tpool_c, int tpool_i)
 {
 	int i;
 	int j;
@@ -40,15 +42,30 @@ void draw_fractol(t_framebuffer *f, t_mat m)
 void update(t_app *app, double dt)
 {
 	t_view_move(&app->view, &app->controller);
-	draw_fractol(&app->framebuffer, t_mat_mul_ref(&app->view.mi, &app->view.di));
+	mlx_put_image_to_window(app->M, app->win, app->framebuffer.image, app->sidebar_w, 0);
+}
+
+void fractol_renderer(t_app *app, int tpool_c, int tpool_i)
+{
+	t_mat m;
+
+	while(!app->shutdown)
+	{
+		m = t_mat_mul_ref(&app->view.mi, &app->view.di);
+		draw_fractol(&app->framebuffer, m, tpool_c, tpool_i);
+	}
 }
 
 int fractol()
 {
 	t_app app;
+	t_thread renderer_t;
 
 	t_app_init(&app, update);
-	t_app_run(&app);
+	renderer_t = t_thread_create(fractol_renderer, &app);
+//	draw_fractol(&app.framebuffer, t_mat_mul_ref(&app.view.mi, &app.view.di));
+	if (t_thread_start(&renderer_t))
+		t_app_run(&app);
 	return (0);
 }
 

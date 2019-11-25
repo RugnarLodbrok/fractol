@@ -93,6 +93,7 @@ typedef struct s_app
 	t_controller controller;
 	t_view view;
 	void (*update)(t_app *app, double dt);
+	int shutdown;
 } t_app;
 
 void t_app_init(t_app *app, void (*update)(t_app *app, double dt));
