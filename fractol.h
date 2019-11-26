@@ -68,6 +68,8 @@ typedef struct
 	int dx;
 	int dy;
 	int dz;
+	int du;
+	int d_yaw;
 } t_controller;
 
 typedef struct
@@ -75,8 +77,6 @@ typedef struct
 	int zoom;
 	t_mat m; //model-view
 	t_mat d; //display
-	t_mat mi;
-	t_mat di;
 } t_view;
 
 typedef struct

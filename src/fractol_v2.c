@@ -2,13 +2,34 @@
 #include "fractol.h"
 #include "threading.h"
 #include "mlx.h"
+#include "limits.h"
+
+int t_fractol_pix_iteration(t_fractol_pix *p)
+{
+	t_complex z;
+	t_complex c;
+
+	if (p->stop)
+		return (INT_MAX);
+	z = p->z;
+	if (z.re * z.re + z.im * z.im > 4)
+	{
+		p->stop = 1;
+		return (INT_MAX);
+	}
+	c = p->c;
+	p->z = (t_complex){z.re * z.re - z.im * z.im + c.re,
+					   z.re * z.im * 2 + c.im};
+	p->i++;
+	return (p->i);
+}
+
 
 static void t_fractol_iteration(t_fractol *f, int tc, int ti)
 {
 	int n;
 	int i;
-	t_complex z;
-	t_complex c;
+	int k;
 	t_fractol_pix *p;
 
 	n = f->w * f->h;
@@ -18,16 +39,10 @@ static void t_fractol_iteration(t_fractol *f, int tc, int ti)
 		p = &f->data[i];
 		if (p->stop)
 			continue;
-		z = p->z;
-		if (z.re * z.re + z.im * z.im > 4)
-		{
-			p->stop = 1;
-			continue;
-		}
-		c = p->c;
-		p->z = (t_complex){z.re * z.re - z.im * z.im + c.re,
-						   z.re * z.im * 2 + c.im};
-		p->i++;
+		k = 50;
+		while(k--)
+			if (t_fractol_pix_iteration(p) == INT_MAX)
+				break;
 	}
 }
 
@@ -70,6 +85,8 @@ static int mat_eq(t_mat *m1, t_mat *m2)
 		return 0;
 	if (m1->data[1][3] != m2->data[1][3])
 		return 0;
+	if (m1->data[2][3] != m2->data[2][3])
+		return 0;
 	return (1);
 }
 
@@ -91,7 +108,7 @@ void t_fractol_reset(t_fractol *f, t_mat m)
 			p = t_vec_transform((t_vec){i, j, 0}, m);
 			pix = &f->data[j * w + i];
 			pix->c = (t_complex){p.x, p.y};
-			pix->z = (t_complex){0, 0};
+			pix->z = (t_complex){0, p.z};
 			pix->i = 0;
 			pix->stop = 0;
 			pix->color = 0;
@@ -108,7 +125,7 @@ void fractol_renderer(t_app *app, int tpool_c, int tpool_i)
 	t_mat_reset(&m_new);
 	while (!app->shutdown)
 	{
-		m_new = t_mat_mul_ref(&app->view.mi, &app->view.di);
+		m_new = t_mat_mul_ref(&app->view.m, &app->view.d);
 		if (!mat_eq(&m_new, &m) && !tpool_i)
 			t_fractol_reset(&app->fractol, m_new);
 		m = m_new;

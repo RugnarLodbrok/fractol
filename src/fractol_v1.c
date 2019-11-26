@@ -52,7 +52,7 @@ static void fractol_renderer(t_app *app, int tpool_c, int tpool_i)
 
 	while(!app->shutdown)
 	{
-		m = t_mat_mul_ref(&app->view.mi, &app->view.di);
+		m = t_mat_mul_ref(&app->view.m, &app->view.d);
 		draw_fractol(&app->framebuffer, m, tpool_c, tpool_i);
 	}
 }

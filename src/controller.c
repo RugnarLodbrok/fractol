@@ -18,6 +18,8 @@ void	t_controller_update_state(t_controller *c)
 	c->dx = c->keyboard[KEY_A] - c->keyboard[KEY_D];
 	c->dy = c->keyboard[KEY_S] - c->keyboard[KEY_W];
 	c->dz = c->keyboard[KEY_Q] - c->keyboard[KEY_E];
+	c->du = c->keyboard[KEY_DOWN] - c->keyboard[KEY_UP];
+	c->d_yaw = c->keyboard[KEY_LEFT] - c->keyboard[KEY_RIGHT];
 }
 
 int		t_controller_key_press(int keycode, void *p)

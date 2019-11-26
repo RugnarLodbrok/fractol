@@ -6,15 +6,13 @@
 static void t_view_init(t_view *v, int w, int h)
 {
 	t_mat_reset(&v->m);
-	v->m.data[0][0] = .5;
-	v->m.data[1][1] = .5;
+	v->m.data[0][0] = 2;
+	v->m.data[1][1] = 2;
 	v->d = (t_mat){{
-						   {.5 * w, 0, 0, .5 * w},
-						   {0, -.5 * w, 0, .5 * h},
-						   {0, 0, 1, 0},
-						   {0, 0, 0, 1}}};
-	v->di = t_mat_inverted(v->d);
-	v->mi = t_mat_inverted(v->m);
+							{2. / w, 0, 0, -1},
+							{0, -2. / w, 0, (double)h / w},
+							{0, 0, 1, 0},
+							{0, 0, 0, 1}}};
 }
 
 void t_view_move(t_view *v, t_controller *c, double dt)
@@ -25,10 +23,11 @@ void t_view_move(t_view *v, t_controller *c, double dt)
 	v->zoom += c->dz;
 	z = exp((double)v->zoom / 100.);
 	step = dt * z * .6;
-	v->mi.data[0][3] -= step * c->dx;
-	v->mi.data[1][3] -= step * c->dy;
-	v->mi.data[0][0] = z;
-	v->mi.data[1][1] = z;
+	v->m.data[0][3] -= step * c->dx;
+	v->m.data[1][3] -= step * c->dy;
+	v->m.data[0][0] = z;
+	v->m.data[1][1] = z;
+	v->m.data[2][3] -= step * c->du;
 }
 
 static int close_hook(void *param)
