@@ -95,8 +95,6 @@ typedef struct
 	t_fractol_pix *data;
 } t_fractol;
 
-typedef struct s_app t_app;
-
 typedef struct s_app
 {
 	int w;
@@ -110,7 +108,7 @@ typedef struct s_app
 	t_controller controller;
 	t_view view;
 	t_fractol fractol;
-	void (*update)(t_app *app, double dt);
+	void (*update)(struct s_app *app, double dt);
 	int shutdown;
 } t_app;
 

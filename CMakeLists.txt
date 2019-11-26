@@ -18,8 +18,6 @@ add_executable(fractol
 		src/app.c
 		src/controller.c
 		src/framebuffer.c
-		src/threading.c
-		src/thread_pool.c
 		src/threads_test.c
 		src/palette.c
 		src/fractol_v1.c
@@ -117,6 +115,9 @@ add_executable(fractol
 		libft/src/t_buff.c
 		libft/src/endian.c
 		libft/src/ft_error_exit.c
+
+		libft/src/threading/thread.c
+		libft/src/threading/thread_pool.c
 
 		libft/src/array/array.c
 		libft/src/array/arrayi.c

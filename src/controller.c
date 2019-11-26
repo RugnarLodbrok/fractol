@@ -12,7 +12,6 @@
 
 #include "mlx.h"
 #include "fractol.h"
-#include <Windows.h>
 
 void	t_controller_update_state(t_controller *c)
 {

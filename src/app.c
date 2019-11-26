@@ -56,7 +56,7 @@ void t_app_init(t_app *app, void (*update)(t_app *app, double dt))
 	ft_bzero(app, sizeof(t_app));
 	app->w = WIN_W;
 	app->h = WIN_H;
-	app->sidebar_w = 200;
+	app->sidebar_w = 0;
 	app->time = clock();
 	app->frame_time = app->time;
 	app->update = update;

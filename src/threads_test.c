@@ -4,7 +4,7 @@
 static void foo(char *s)
 {
 	ft_printf("hello from thread: `%s`1\n", s);
-	_sleep(400);
+	sleep(400);
 	ft_printf("hello from thread: `%s`2\n", s);
 }
 
