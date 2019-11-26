@@ -3,7 +3,7 @@
 #include "threading.h"
 #include "mlx.h"
 
-uint mandelbrot_pixel(double x, double y)
+static uint mandelbrot_pixel(double x, double y)
 {
 	int iterations;
 	t_complex z;
@@ -21,7 +21,7 @@ uint mandelbrot_pixel(double x, double y)
 	return (0);
 }
 
-void draw_fractol(t_framebuffer *f, t_mat m, int tpool_c, int tpool_i)
+static void draw_fractol(t_framebuffer *f, t_mat m, int tpool_c, int tpool_i)
 {
 	int i;
 	int j;
@@ -40,13 +40,13 @@ void draw_fractol(t_framebuffer *f, t_mat m, int tpool_c, int tpool_i)
 	}
 }
 
-void update(t_app *app, double dt)
+static void update(t_app *app, double dt)
 {
 	t_view_move(&app->view, &app->controller, dt);
 	mlx_put_image_to_window(app->M, app->win, app->framebuffer.image, app->sidebar_w, 0);
 }
 
-void fractol_renderer(t_app *app, int tpool_c, int tpool_i)
+static void fractol_renderer(t_app *app, int tpool_c, int tpool_i)
 {
 	t_mat m;
 

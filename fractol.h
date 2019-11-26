@@ -79,6 +79,22 @@ typedef struct
 	t_mat di;
 } t_view;
 
+typedef struct
+{
+	t_complex z;
+	t_complex c;
+	int i;
+	int stop;
+	uint color;
+} t_fractol_pix;
+
+typedef struct
+{
+	int w;
+	int h;
+	t_fractol_pix *data;
+} t_fractol;
+
 typedef struct s_app t_app;
 
 typedef struct s_app
@@ -93,6 +109,7 @@ typedef struct s_app
 	time_t frame_time;
 	t_controller controller;
 	t_view view;
+	t_fractol fractol;
 	void (*update)(t_app *app, double dt);
 	int shutdown;
 } t_app;
