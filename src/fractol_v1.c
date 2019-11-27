@@ -42,7 +42,7 @@ static void draw_fractol(t_framebuffer *f, t_mat m, int tpool_c, int tpool_i)
 
 static void update(t_app *app, double dt)
 {
-	t_view_move(&app->view, &app->controller, dt);
+	t_cam_move(&app->cam, &app->controller, dt);
 	mlx_put_image_to_window(app->M, app->win, app->framebuffer.image, app->sidebar_w, 0);
 }
 
@@ -52,7 +52,7 @@ static void fractol_renderer(t_app *app, int tpool_c, int tpool_i)
 
 	while(!app->shutdown)
 	{
-		m = t_mat_mul_ref(&app->view.m, &app->view.d);
+		m = t_mat_mul_ref(&app->cam.m, &app->cam.d);
 		draw_fractol(&app->framebuffer, m, tpool_c, tpool_i);
 	}
 }

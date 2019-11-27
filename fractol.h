@@ -77,7 +77,7 @@ typedef struct
 	int zoom;
 	t_mat m; //model-view
 	t_mat d; //display
-} t_view;
+} t_cam;
 
 typedef struct
 {
@@ -106,7 +106,7 @@ typedef struct s_app
 	time_t time;
 	time_t frame_time;
 	t_controller controller;
-	t_view view;
+	t_cam cam;
 	t_fractol fractol;
 	void (*update)(struct s_app *app, double dt);
 	int shutdown;
@@ -118,7 +118,8 @@ void mlx_bind_keys(void *win, t_controller *c);
 void t_framebuffer_init(t_framebuffer *fb, void *mlx, int w, int h);
 void t_framebuffer_clear(t_framebuffer *fb);
 void fb_put_pixel(t_framebuffer *fb, int x, int y, uint color);
-void t_view_move(t_view *v, t_controller *c, double dt);
+void t_cam_init(t_cam *cam, int w, int h);
+void t_cam_move(t_cam *cam, t_controller *c, double dt);
 uint hue_spiral(int iteration);
 
 #endif

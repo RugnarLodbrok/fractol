@@ -17,6 +17,7 @@ add_executable(fractol
 		src/main.c
 		src/app.c
 		src/controller.c
+		src/camera.c
 		src/framebuffer.c
 		src/threads_test.c
 		src/palette.c

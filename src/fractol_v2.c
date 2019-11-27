@@ -69,7 +69,7 @@ void t_fractol_draw(t_fractol *f, t_framebuffer *fb)
 
 void update(t_app *app, double dt)
 {
-	t_view_move(&app->view, &app->controller, dt);
+	t_cam_move(&app->cam, &app->controller, dt);
 	t_fractol_draw(&app->fractol, &app->framebuffer);
 	mlx_put_image_to_window(app->M, app->win, app->framebuffer.image,
 							app->sidebar_w, 0);
@@ -125,7 +125,7 @@ void fractol_renderer(t_app *app, int tpool_c, int tpool_i)
 	t_mat_reset(&m_new);
 	while (!app->shutdown)
 	{
-		m_new = t_mat_mul_ref(&app->view.m, &app->view.d);
+		m_new = t_mat_mul_ref(&app->cam.m, &app->cam.d);
 		if (!mat_eq(&m_new, &m) && !tpool_i)
 			t_fractol_reset(&app->fractol, m_new);
 		m = m_new;
