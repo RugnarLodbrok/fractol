@@ -21,6 +21,9 @@ add_executable(fractol
 		src/framebuffer.c
 		src/threads_test.c
 		src/palette.c
+		src/fractol.c
+		src/fractol_pix.c
+		src/it_estimator.c
 		src/fractol_v1.c
 		src/fractol_v2.c
 

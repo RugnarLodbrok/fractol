@@ -92,6 +92,7 @@ typedef struct
 {
 	int w;
 	int h;
+	int *it_distribution;
 	t_fractol_pix *data;
 } t_fractol;
 
@@ -121,5 +122,9 @@ void fb_put_pixel(t_framebuffer *fb, int x, int y, uint color);
 void t_cam_init(t_cam *cam, int w, int h);
 void t_cam_move(t_cam *cam, t_controller *c, double dt);
 uint hue_spiral(int iteration);
+int t_fractol_pix_iteration(t_fractol_pix *p);
+void t_fractol_reset(t_fractol *f, t_mat m);
+void t_fractol_draw(t_fractol *f, t_framebuffer *fb);
+void t_fractol_iteration(t_fractol *f, int tc, int ti);
 
 #endif

@@ -4,69 +4,6 @@
 #include "mlx.h"
 #include "limits.h"
 
-int t_fractol_pix_iteration(t_fractol_pix *p)
-{
-	t_complex z;
-	t_complex c;
-
-	if (p->stop)
-		return (INT_MAX);
-	z = p->z;
-	if (z.re * z.re + z.im * z.im > 4)
-	{
-		p->stop = 1;
-		return (INT_MAX);
-	}
-	c = p->c;
-	p->z = (t_complex){z.re * z.re - z.im * z.im + c.re,
-					   z.re * z.im * 2 + c.im};
-	p->i++;
-	return (p->i);
-}
-
-
-static void t_fractol_iteration(t_fractol *f, int tc, int ti)
-{
-	int n;
-	int i;
-	int k;
-	t_fractol_pix *p;
-
-	n = f->w * f->h;
-	i = -tc + ti;
-	while ((i += tc) < n)
-	{
-		p = &f->data[i];
-		if (p->stop)
-			continue;
-		k = 50;
-		while(k--)
-			if (t_fractol_pix_iteration(p) == INT_MAX)
-				break;
-	}
-}
-
-void t_fractol_draw(t_fractol *f, t_framebuffer *fb)
-{
-	int n;
-	int i;
-	t_fractol_pix *p;
-
-	n = f->w * f->h;
-	i = -1;
-	while (++i < n)
-	{
-		p = &f->data[i];
-		if (p->stop && p->i != -1)
-		{
-			p->color = hue_spiral(p->i);
-			if (p->stop)
-				p->i = -1;
-		}
-		fb->data[i] = p->color;
-	}
-}
-
 void update(t_app *app, double dt)
 {
 	t_cam_move(&app->cam, &app->controller, dt);
@@ -88,32 +25,6 @@ static int mat_eq(t_mat *m1, t_mat *m2)
 	if (m1->data[2][3] != m2->data[2][3])
 		return 0;
 	return (1);
-}
-
-void t_fractol_reset(t_fractol *f, t_mat m)
-{
-	int i;
-	int j;
-	int w;
-	t_fractol_pix *pix;
-	t_vec p;
-
-	w = f->w;
-	i = -1;
-	while (++i < w)
-	{
-		j = -1;
-		while (++j < f->h)
-		{
-			p = t_vec_transform((t_vec){i, j, 0}, m);
-			pix = &f->data[j * w + i];
-			pix->c = (t_complex){p.x, p.y};
-			pix->z = (t_complex){0, p.z};
-			pix->i = 0;
-			pix->stop = 0;
-			pix->color = 0;
-		}
-	}
 }
 
 void fractol_renderer(t_app *app, int tpool_c, int tpool_i)
@@ -142,7 +53,7 @@ int fractol_v2()
 	app.fractol.w = app.framebuffer.w;
 	app.fractol.h = app.framebuffer.h;
 	app.fractol.data = ft_memalloc(sizeof(t_fractol_pix) * app.w * app.h);
-	renderer = t_tpool_create(6, fractol_renderer, &app);
+	renderer = t_tpool_create(7, fractol_renderer, &app);
 	t_poool_start(&renderer);
 	t_app_run(&app);
 	return (0);
