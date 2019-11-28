@@ -35,7 +35,7 @@ void t_app_init(t_app *app, void (*update)(t_app *app, double dt))
 	t_cam_init(&app->cam, app->w, app->h);
 	app->M = mlx_init();
 	app->win = mlx_new_window(app->M, app->sidebar_w + app->w, app->h, "fdf");
-	mlx_bind_keys(app->win, &app->controller);
+	bind_keys(app->win, &app->controller);
 	t_framebuffer_init(&app->framebuffer, app->M, app->w, app->h);
 }
 
@@ -44,7 +44,7 @@ void t_app_run(t_app *app)
 
 	mlx_loop_hook(app->M, loop_hook, app);
 	mlx_hook(app->win, MLX_EVENT_EXIT, 0, &close_hook, 0);
-	mlx_bind_keys(app->win, &app->controller);
+	bind_keys(app->win, &app->controller);
 	mlx_loop(app->M);
 
 }

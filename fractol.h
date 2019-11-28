@@ -90,9 +90,15 @@ typedef struct
 
 typedef struct
 {
+	int size;
+	int *data;
+} t_it_estimator;
+
+typedef struct
+{
 	int w;
 	int h;
-	int *it_distribution;
+	t_it_estimator ies;
 	t_fractol_pix *data;
 } t_fractol;
 
@@ -115,17 +121,27 @@ typedef struct s_app
 
 void t_app_init(t_app *app, void (*update)(t_app *app, double dt));
 void t_app_run(t_app *app);
-void mlx_bind_keys(void *win, t_controller *c);
+void bind_keys(void *win, t_controller *c);
+
 void t_framebuffer_init(t_framebuffer *fb, void *mlx, int w, int h);
 void t_framebuffer_clear(t_framebuffer *fb);
 void fb_put_pixel(t_framebuffer *fb, int x, int y, uint color);
+
 void t_cam_init(t_cam *cam, int w, int h);
 void t_cam_move(t_cam *cam, t_controller *c, double dt);
+
 uint hue_spiral(int iteration);
+
 int t_fractol_pix_iteration(t_fractol_pix *p);
+
 void t_fractol_init(t_fractol *f, int w, int h);
 void t_fractol_reset(t_fractol *f, t_mat m);
 void t_fractol_draw(t_fractol *f, t_framebuffer *fb);
 void t_fractol_iteration(t_fractol *f, int tc, int ti);
+
+void t_ies_init(t_it_estimator *ies);
+void t_ies_add(t_it_estimator *ies, int i);
+int t_ies_estimate(t_it_estimator *ies);
+void t_ies_reset(t_it_estimator *ies);
 
 #endif

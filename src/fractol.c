@@ -5,6 +5,7 @@ void t_fractol_init(t_fractol *f, int w, int h)
 	f->w = w;
 	f->h = h;
 	f->data = ft_memalloc(sizeof(t_fractol_pix) * w * h);
+	t_ies_init(&f->ies);
 }
 
 void t_fractol_iteration(t_fractol *f, int tc, int ti)
@@ -26,7 +27,7 @@ void t_fractol_iteration(t_fractol *f, int tc, int ti)
 		{
 			if (t_fractol_pix_iteration(p) == INT_MAX)
 			{
-//				f->it_distribution[p->i]++;
+				t_ies_add(&f->ies, p->i);
 				break;
 			}
 		}
@@ -38,11 +39,11 @@ void t_fractol_draw(t_fractol *f, t_framebuffer *fb)
 	int n;
 	int i;
 	t_fractol_pix *p;
-	int draw_black;
+	int it_estimation;
 
 	n = f->w * f->h;
 	i = -1;
-	draw_black = 1;//check_for_draw_black(f);
+	it_estimation = t_ies_estimate(&f->ies);
 	while (++i < n)
 	{
 		p = &f->data[i];
@@ -55,7 +56,7 @@ void t_fractol_draw(t_fractol *f, t_framebuffer *fb)
 			}
 			fb->data[i] = p->color;
 		}
-		else if (draw_black)
+		else if (p->i > it_estimation)
 			fb->data[i] = 0;
 	}
 }
@@ -70,6 +71,7 @@ void t_fractol_reset(t_fractol *f, t_mat m)
 
 	w = f->w;
 	i = -1;
+	t_ies_reset(&f->ies);
 	while (++i < w)
 	{
 		j = -1;
