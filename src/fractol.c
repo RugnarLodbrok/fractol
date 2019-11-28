@@ -66,14 +66,16 @@ void t_fractol_draw(t_fractol *f, t_framebuffer *fb)
 	}
 }
 
-void t_fractol_reset(t_fractol *f, t_mat m)
+void t_fractol_reset(t_fractol *f, t_cam *cam)
 {
 	int i;
 	int j;
 	int w;
 	t_fractol_pix *pix;
 	t_vec p;
+	t_mat m;
 
+	m = t_mat_mul_ref(&cam->m, &cam->d);
 	w = f->w;
 	i = -1;
 	t_ies_reset(&f->ies);
@@ -84,7 +86,9 @@ void t_fractol_reset(t_fractol *f, t_mat m)
 		{
 			p = t_vec_transform((t_vec){i, j, 0}, m);
 			pix = &f->data[j * w + i];
-			t_fractol_pix_reset(pix, &p);
+			t_fractol_pix_reset(pix,
+								(t_complex){0, 0},
+								*(t_complex *)&p);
 		}
 	}
 }

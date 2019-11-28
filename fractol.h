@@ -145,7 +145,7 @@ void t_fractol_pix_reset(t_fractol_pix *pix, t_complex z, t_complex c);
 int t_fractol_pix_iteration(t_fractol_pix *p);
 
 void t_fractol_init(t_fractol *f, int w, int h);
-void t_fractol_reset(t_fractol *f, t_mat m);
+void t_fractol_reset(t_fractol *f, t_cam *cam);
 void t_fractol_draw(t_fractol *f, t_framebuffer *fb);
 void t_fractol_iteration(t_fractol *f, int tc, int ti);
 

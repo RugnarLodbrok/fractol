@@ -29,17 +29,13 @@ static int mat_eq(t_mat *m1, t_mat *m2)
 
 void fractol_renderer(t_app *app, int tpool_c, int tpool_i)
 {
-	t_mat m;
-	t_mat m_new;
-
-	t_mat_reset(&m);
-	t_mat_reset(&m_new);
 	while (!app->shutdown)
 	{
-		m_new = t_mat_mul_ref(&app->cam.m, &app->cam.d);
-		if (!mat_eq(&m_new, &m) && !tpool_i)
-			t_fractol_reset(&app->fractol, m_new);
-		m = m_new;
+		if (app->cam.is_changed && !tpool_i)
+		{
+			app->cam.is_changed = 0;
+			t_fractol_reset(&app->fractol, &app->cam);
+		}
 		t_fractol_iteration(&app->fractol, tpool_c, tpool_i);
 	}
 }
