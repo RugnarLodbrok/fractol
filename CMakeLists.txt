@@ -24,7 +24,7 @@ add_executable(fractol
 		src/fractol.c
 		src/fractol_pix.c
 		src/it_estimator.c
-		src/fractol_v1.c
+#		src/fractol_v1.c
 		src/fractol_v2.c
 
 		libft/src/string/ft_atoi.c

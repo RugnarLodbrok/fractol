@@ -34,6 +34,8 @@
 # define KEY_D 2
 # define KEY_Q 12
 # define KEY_E 14
+# define KEY_Z 6
+# define KEY_X 7
 # define KEY_ESC 53
 # define KEY_I 34
 # define KEY_P 35
@@ -69,15 +71,19 @@ typedef struct
 	int keyboard[128];
 	int dx;
 	int dy;
-	int dz;
 	int du;
+	int dv;
+	int dz;
 	int d_yaw;
 } t_controller;
 
 typedef struct
 {
+	int is_changed;
 	int zoom;
-	t_mat m; //model-view
+	int	rot_angle;
+	t_mat m; //model-view for re axis
+	t_mat rot; //rotation from mandelbrot to julia
 	t_mat d; //display
 } t_cam;
 
@@ -135,7 +141,7 @@ void t_cam_move(t_cam *cam, t_controller *c, double dt);
 
 uint hue_spiral(int iteration);
 
-void t_fractol_pix_reset(t_fractol_pix *pix, t_vec *p);
+void t_fractol_pix_reset(t_fractol_pix *pix, t_complex z, t_complex c);
 int t_fractol_pix_iteration(t_fractol_pix *p);
 
 void t_fractol_init(t_fractol *f, int w, int h);
