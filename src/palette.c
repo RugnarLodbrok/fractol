@@ -2,6 +2,10 @@
 #include "libft.h"
 #include "fractol.h"
 
+# define HUE_COUNT 31
+# define SATURATION_FADE 0xFF
+# define LIGHTNESS_INCRESE 10
+
 uint color_3f(double r, double g, double b)
 {
 	return (
@@ -19,9 +23,9 @@ uint hue_spiral(int iteration)
 		ft_printf("new max it: %d\n", max);
 	}
 //	double S = 1.;
-	double S = exp(-(double)iteration / 0xFF);
-	double L = (1 - exp(-(double)iteration / 10))/2;
-	double H = (double)(iteration % 19) * 6 / 19;
+	double S = exp(-(double)iteration / SATURATION_FADE);
+	double L = (1 - exp(-(double)iteration / LIGHTNESS_INCRESE))/2;
+	double H = (double)(iteration % HUE_COUNT) * 6 / HUE_COUNT;
 	double C = (1 - fabs(2 * L - 1)) * S;
 	double X = C * (1 - fabs(fmod(H, 2) - 1));
 	if (H <= 1)
