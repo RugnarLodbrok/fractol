@@ -83,7 +83,7 @@ typedef struct
 {
 	t_complex z;
 	t_complex c;
-	int i;
+	uint i;
 	int stop;
 	uint color;
 } t_fractol_pix;

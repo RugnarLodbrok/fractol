@@ -12,7 +12,7 @@ void t_fractol_iteration(t_fractol *f, int tc, int ti)
 {
 	int n;
 	int i;
-	int k;
+	uint k;
 	t_fractol_pix *p;
 
 	n = f->w * f->h;
@@ -22,7 +22,9 @@ void t_fractol_iteration(t_fractol *f, int tc, int ti)
 		p = &f->data[i];
 		if (p->stop)
 			continue;
-		k = 10;
+		k = (p->i << 2) + 1;
+		if (k > 0x20)
+			k = 0x20;
 		while(k--)
 		{
 			if (t_fractol_pix_iteration(p) == INT_MAX)
@@ -48,14 +50,7 @@ void t_fractol_draw(t_fractol *f, t_framebuffer *fb)
 	{
 		p = &f->data[i];
 		if (p->stop)
-		{
-			if (p->i != -1) //i == -1 means no need to recalculate color;
-			{
-				p->color = hue_spiral(p->i);
-				p->i = -1;
-			}
 			fb->data[i] = p->color;
-		}
 		else if (p->i > it_estimation)
 			fb->data[i] = 0;
 	}

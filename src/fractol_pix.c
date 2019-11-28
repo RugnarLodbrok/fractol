@@ -20,6 +20,7 @@ int t_fractol_pix_iteration(t_fractol_pix *p)
 	z = p->z;
 	if (z.re * z.re + z.im * z.im > 4)
 	{
+		p->color = hue_spiral(p->i);
 		p->stop = 1;
 		return (INT_MAX);
 	}
