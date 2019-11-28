@@ -79,11 +79,7 @@ void t_fractol_reset(t_fractol *f, t_mat m)
 		{
 			p = t_vec_transform((t_vec){i, j, 0}, m);
 			pix = &f->data[j * w + i];
-			pix->c = (t_complex){p.x, p.y};
-			pix->z = (t_complex){0, p.z};
-			pix->i = 0;
-			pix->stop = 0;
-			pix->color = 0;
+			t_fractol_pix_reset(pix, &p);
 		}
 	}
 }

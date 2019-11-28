@@ -1,6 +1,15 @@
 #include <limits.h>
 #include "fractol.h"
 
+void t_fractol_pix_reset(t_fractol_pix *pix, t_vec *p)
+{
+	pix->c = (t_complex){p->x, p->y};
+	pix->z = (t_complex){p->z, 0};
+	pix->i = 0;
+	pix->stop = 0;
+	pix->color = 0;
+}
+
 int t_fractol_pix_iteration(t_fractol_pix *p)
 {
 	t_complex z;

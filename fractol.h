@@ -132,6 +132,7 @@ void t_cam_move(t_cam *cam, t_controller *c, double dt);
 
 uint hue_spiral(int iteration);
 
+void t_fractol_pix_reset(t_fractol_pix *pix, t_vec *p);
 int t_fractol_pix_iteration(t_fractol_pix *p);
 
 void t_fractol_init(t_fractol *f, int w, int h);
