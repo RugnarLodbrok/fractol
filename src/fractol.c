@@ -1,5 +1,12 @@
 #include "fractol.h"
 
+void t_fractol_init(t_fractol *f, int w, int h)
+{
+	f->w = w;
+	f->h = h;
+	f->data = ft_memalloc(sizeof(t_fractol_pix) * w * h);
+}
+
 void t_fractol_iteration(t_fractol *f, int tc, int ti)
 {
 	int n;

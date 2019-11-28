@@ -50,9 +50,7 @@ int fractol_v2()
 	t_tpool renderer;
 
 	t_app_init(&app, update);
-	app.fractol.w = app.framebuffer.w;
-	app.fractol.h = app.framebuffer.h;
-	app.fractol.data = ft_memalloc(sizeof(t_fractol_pix) * app.w * app.h);
+	t_fractol_init(&app.fractol, app.w, app.h);
 	renderer = t_tpool_create(7, fractol_renderer, &app);
 	t_poool_start(&renderer);
 	t_app_run(&app);
