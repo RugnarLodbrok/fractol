@@ -12,7 +12,14 @@ uint color_3f(double r, double g, double b)
 
 uint hue_spiral(int iteration)
 {
-	double S = 1.;
+	static int max = 0;
+	if (iteration > max)
+	{
+		max = iteration;
+		ft_printf("new max it: %d\n", max);
+	}
+//	double S = 1.;
+	double S = exp(-(double)iteration / 0xFF);
 	double L = (1 - exp(-(double)iteration / 10))/2;
 	double H = (double)(iteration % 19) * 6 / 19;
 	double C = (1 - fabs(2 * L - 1)) * S;

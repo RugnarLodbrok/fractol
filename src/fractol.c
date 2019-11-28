@@ -2,9 +2,15 @@
 
 void t_fractol_init(t_fractol *f, int w, int h)
 {
+	int i;
+
 	f->w = w;
 	f->h = h;
 	f->data = ft_memalloc(sizeof(t_fractol_pix) * w * h);
+	f->color_cache = malloc(sizeof(uint) * MAX_ITER);
+	i = -1;
+	while(++i < MAX_ITER)
+		f->color_cache[i] = hue_spiral(i);
 	t_ies_init(&f->ies);
 }
 
@@ -27,7 +33,7 @@ void t_fractol_iteration(t_fractol *f, int tc, int ti)
 			k = 0x20;
 		while(k--)
 		{
-			if (t_fractol_pix_iteration(p) == INT_MAX)
+			if (t_fractol_pix_iteration(p, f->color_cache) == INT_MAX)
 			{
 				t_ies_add(&f->ies, p->i);
 				break;

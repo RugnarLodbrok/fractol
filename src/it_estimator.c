@@ -56,10 +56,10 @@ int t_ies_estimate(t_it_estimator *ies)
 		n1 += ies->data[i++];
 		if (n1 > r)
 		{
-			ft_printf("es:\t%d\n", i);
+//			ft_printf("es:\t%d\n", i);
 			return (i);
 		}
 	}
-	ft_printf("noes:\t%d\n", i);
+//	ft_printf("noes:\t%d\n", i);
 	return (size);
 }

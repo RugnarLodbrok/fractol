@@ -42,6 +42,8 @@
 # define KEY_HOME 115
 # define KEY_END 119
 
+# define MAX_ITER 2048
+
 #include "libft.h"
 #include "ft_linalg.h"
 
@@ -98,6 +100,7 @@ typedef struct
 {
 	int w;
 	int h;
+	uint *color_cache;
 	t_it_estimator ies;
 	t_fractol_pix *data;
 } t_fractol;
@@ -133,7 +136,7 @@ void t_cam_move(t_cam *cam, t_controller *c, double dt);
 uint hue_spiral(int iteration);
 
 void t_fractol_pix_reset(t_fractol_pix *pix, t_vec *p);
-int t_fractol_pix_iteration(t_fractol_pix *p);
+int t_fractol_pix_iteration(t_fractol_pix *p, uint *color_cache);
 
 void t_fractol_init(t_fractol *f, int w, int h);
 void t_fractol_reset(t_fractol *f, t_mat m);

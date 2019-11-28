@@ -10,7 +10,7 @@ void t_fractol_pix_reset(t_fractol_pix *pix, t_vec *p)
 	pix->color = 0;
 }
 
-int t_fractol_pix_iteration(t_fractol_pix *p)
+int t_fractol_pix_iteration(t_fractol_pix *p, uint *color_cache)
 {
 	t_complex z;
 	t_complex c;
@@ -18,9 +18,9 @@ int t_fractol_pix_iteration(t_fractol_pix *p)
 	if (p->stop)
 		return (INT_MAX);
 	z = p->z;
-	if (z.re * z.re + z.im * z.im > 4)
+	if (z.re * z.re + z.im * z.im > 4 || p->i >= MAX_ITER - 1)
 	{
-		p->color = hue_spiral(p->i);
+		p->color = color_cache[p->i];
 		p->stop = 1;
 		return (INT_MAX);
 	}
