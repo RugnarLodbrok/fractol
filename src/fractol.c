@@ -1,5 +1,9 @@
 #include "fractol.h"
 
+/*
+** todo: have a pecial renderer thread that renders in 1/4 resolution to smoothen movement
+*/
+
 void t_fractol_init(t_fractol *f, int w, int h)
 {
 	int i;
@@ -33,7 +37,7 @@ void t_fractol_iteration(t_fractol *f, int tc, int ti)
 			k = 0x20;
 		while(k--)
 		{
-			if (t_fractol_pix_iteration(p, f->color_cache) == INT_MAX)
+			if (t_fractol_pix_iteration(p) == INT_MAX)
 			{
 				t_ies_add(&f->ies, p->i);
 				break;
@@ -56,7 +60,7 @@ void t_fractol_draw(t_fractol *f, t_framebuffer *fb)
 	{
 		p = &f->data[i];
 		if (p->stop)
-			fb->data[i] = p->color;
+			fb->data[i] = f->color_cache[p->i];
 		else if (p->i > it_estimation)
 			fb->data[i] = 0;
 	}

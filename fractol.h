@@ -87,7 +87,6 @@ typedef struct
 	t_complex c;
 	uint i;
 	int stop;
-	uint color;
 } t_fractol_pix;
 
 typedef struct
@@ -123,6 +122,7 @@ typedef struct s_app
 } t_app;
 
 void t_app_init(t_app *app, void (*update)(t_app *app, double dt));
+void t_app_up(t_app *app);
 void t_app_run(t_app *app);
 void bind_keys(void *win, t_controller *c);
 
@@ -136,7 +136,7 @@ void t_cam_move(t_cam *cam, t_controller *c, double dt);
 uint hue_spiral(int iteration);
 
 void t_fractol_pix_reset(t_fractol_pix *pix, t_vec *p);
-int t_fractol_pix_iteration(t_fractol_pix *p, uint *color_cache);
+int t_fractol_pix_iteration(t_fractol_pix *p);
 
 void t_fractol_init(t_fractol *f, int w, int h);
 void t_fractol_reset(t_fractol *f, t_mat m);

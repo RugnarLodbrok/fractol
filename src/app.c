@@ -1,5 +1,4 @@
 #include <time.h>
-#include <math.h>
 #include "mlx.h"
 #include "fractol.h"
 
@@ -33,6 +32,10 @@ void t_app_init(t_app *app, void (*update)(t_app *app, double dt))
 	app->frame_time = app->time;
 	app->update = update;
 	t_cam_init(&app->cam, app->w, app->h);
+}
+
+void t_app_up(t_app *app)
+{
 	app->M = mlx_init();
 	app->win = mlx_new_window(app->M, app->sidebar_w + app->w, app->h, "fdf");
 	bind_keys(app->win, &app->controller);

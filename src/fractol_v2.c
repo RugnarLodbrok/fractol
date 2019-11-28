@@ -52,6 +52,7 @@ int fractol_v2()
 	t_app_init(&app, update);
 	t_fractol_init(&app.fractol, app.w, app.h);
 	renderer = t_tpool_create(7, fractol_renderer, &app);
+	t_app_up(&app);
 	t_poool_start(&renderer);
 	t_app_run(&app);
 	return (0);
