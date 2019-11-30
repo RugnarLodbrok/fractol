@@ -47,6 +47,6 @@ int		t_controller_key_release(int keycode, void *p)
 
 void	bind_keys(void *win, t_controller *c)
 {
-	mlx_hook(win, MLX_EVEN_KEY_PRESS, 0, t_controller_key_press, c);
-	mlx_hook(win, MLX_EVEN_KEY_RELEASE, 0, t_controller_key_release, c);
+	mlx_hook(win, MLX_EVENT_KEY_PRESS, 0, t_controller_key_press, c);
+	mlx_hook(win, MLX_EVENT_KEY_RELEASE, 0, t_controller_key_release, c);
 }

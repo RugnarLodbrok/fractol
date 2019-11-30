@@ -33,7 +33,7 @@ static void iterate_pixel(t_fractol *f, int i, int j)
 	if (k > 0x20)
 		k = 0x20;
 	while (k--)
-		if (t_fractol_pix_iteration(p) == INT_MAX)
+		if (t_fractol_pix_z2(p) == INT_MAX)
 		{
 			f->stop_count++;
 			t_ies_add(&f->ies, p->i);
@@ -115,6 +115,7 @@ void t_fractol_reset(t_fractol *f, t_cam *cam, t_thread_id ti)
 	t_vec z;
 	t_vec c;
 	double angle;
+	double julia_offset;
 	int lod_step = (1 << 0);
 	int j_step = lod_step;
 	int i_step = lod_step * ti.c;
@@ -128,12 +129,13 @@ void t_fractol_reset(t_fractol *f, t_cam *cam, t_thread_id ti)
 		t_ies_reset(&f->ies);
 	}
 	angle = cam->rot_angle / 100;
+	julia_offset = exp(cam->julia_offset.x) * .6357;
 	for (i = ti.i * lod_step; i < f->w; i += i_step)
 	{
 		for (j = 0; j < f->h; j += j_step)
 		{
 			c = t_vec_transform((t_vec){i, j}, m);
-			z = (t_vec){0, .6357 * sin(angle), 0};
+			z = (t_vec){0, julia_offset * sin(angle), 0};
 			rotate_m_to_j(&z, &c, angle);
 			t_fractol_pix_reset(&f->data[j * w + i],
 								*(t_complex *)&z,
