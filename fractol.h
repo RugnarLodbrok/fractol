@@ -7,7 +7,7 @@
 # define FRAME_TIME 1./FRAME_RATE
 
 # define MAX_ITER 2048
-# define DEFAULT_LOD 4
+# define DEFAULT_LOD 3
 
 # define FRACTOL_MAND 0
 # define FRACTOL_JULIA 1
