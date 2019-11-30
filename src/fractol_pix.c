@@ -2,7 +2,15 @@
 #include <math.h>
 #include "fractol.h"
 
-void t_fractol_pix_reset(t_fractol_pix *pix, t_complex z, t_complex c)
+void t_fractol_pix_reset_julia(t_fractol_pix *pix, t_complex z, t_complex c)
+{
+	pix->c = z;
+	pix->z = c;
+	pix->i = 0;
+	pix->stop = 0;
+}
+
+void t_fractol_pix_reset_mand(t_fractol_pix *pix, t_complex z, t_complex c)
 {
 	pix->c = c;
 	pix->z = z;

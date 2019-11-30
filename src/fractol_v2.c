@@ -28,13 +28,13 @@ void fractol_renderer(t_app *app, t_thread_id ti)
 	}
 }
 
-int fractol_v2()
+int fractol_main(int fractal_type)
 {
 	t_app app;
 	t_tpool renderer;
 
 	t_app_init(&app, update);
-	t_fractol_init(&app.fractol, app.w, app.h);
+	t_fractol_init(&app.fractol, app.w, app.h, fractal_type);
 	renderer = t_tpool_create(7, fractol_renderer, &app);
 	t_app_up(&app);
 	t_poool_start(&renderer);
