@@ -24,7 +24,6 @@ void t_cam_move(t_cam *cam, t_controller *c, double dt)
 	double step;
 	double scale_factor;
 
-	cam->is_changed = 0;
 	if (!(c->du || c->dx || c->dy || c->dv || c->dz || c->d_yaw))
 		return;
 	cam->zoom += c->dz;
@@ -36,5 +35,5 @@ void t_cam_move(t_cam *cam, t_controller *c, double dt)
 	cam->m.data[1][1] = scale_factor;
 	if (c->d_yaw)
 		cam->rot_angle += c->d_yaw;
-	cam->is_changed = 1;
+	cam->is_changed = 0xFFFFFFFF;
 }

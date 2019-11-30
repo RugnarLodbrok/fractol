@@ -48,6 +48,7 @@
 
 #include "libft.h"
 #include "ft_linalg.h"
+#include "threading.h"
 
 typedef struct
 {
@@ -79,7 +80,7 @@ typedef struct
 
 typedef struct
 {
-	int is_changed;
+	uint is_changed;
 	int zoom;
 	int rot_angle;
 	t_mat m; //model-view for re axis
@@ -146,7 +147,7 @@ int t_fractol_pix_iteration(t_fractol_pix *p);
 void t_fractol_init(t_fractol *f, int w, int h);
 void t_fractol_reset(t_fractol *f, t_cam *cam);
 void t_fractol_draw(t_fractol *f, t_framebuffer *fb);
-void t_fractol_iteration(t_fractol *f, int tc, int ti);
+void t_fractol_iteration(t_fractol *f, t_thread_id ti);
 
 void t_ies_init(t_it_estimator *ies);
 void t_ies_add(t_it_estimator *ies, int i);

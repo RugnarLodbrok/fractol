@@ -3,6 +3,7 @@
 
 /*
 ** todo: have a special renderer thread that renders in 1/4 resolution to smoothen movement
+** todo: reset in a threads
 */
 
 void t_fractol_init(t_fractol *f, int w, int h)
@@ -19,15 +20,17 @@ void t_fractol_init(t_fractol *f, int w, int h)
 	t_ies_init(&f->ies);
 }
 
-void t_fractol_iteration(t_fractol *f, int tc, int ti)
+void t_fractol_iteration(t_fractol *f, t_thread_id ti)
 {
 	int n;
 	int i;
 	uint k;
 	t_fractol_pix *p;
+	int tc; //todo: make benchmark to see how much struct field access costs;
 
 	n = f->w * f->h;
-	i = -tc + ti;
+	tc = ti.c;
+	i = -tc + ti.i;
 	while ((i += tc) < n)
 	{
 		p = &f->data[i];

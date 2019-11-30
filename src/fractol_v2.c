@@ -10,16 +10,21 @@ void update(t_app *app, double dt)
 							app->sidebar_w, 0);
 }
 
-void fractol_renderer(t_app *app, int tpool_c, int tpool_i)
+void fractol_renderer(t_app *app, t_thread_id ti)
 {
+	uint mask;
+	uint mask_inverted;
+
+	mask = 1 << ti.i;
+	mask_inverted = mask ^ 0xFFFFFFFF;
 	while (!app->shutdown)
 	{
-		if (app->cam.is_changed && !tpool_i)
+		if (app->cam.is_changed & mask && !ti.i)
 		{
 			t_fractol_reset(&app->fractol, &app->cam);
-			app->cam.is_changed = 0;
+			app->cam.is_changed &= mask_inverted;
 		}
-		t_fractol_iteration(&app->fractol, tpool_c, tpool_i);
+		t_fractol_iteration(&app->fractol, ti);
 	}
 }
 
