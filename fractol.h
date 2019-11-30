@@ -3,7 +3,7 @@
 
 # define WIN_W 800
 # define WIN_H 600
-# define FRAME_RATE 5
+# define FRAME_RATE 10
 # define FRAME_TIME 1./FRAME_RATE
 
 # define MLX_EVEN_KEY_PRESS 2
@@ -106,6 +106,7 @@ typedef struct
 	int w;
 	int h;
 	uint *color_cache;
+	int lod;
 	t_it_estimator ies;
 	t_fractol_pix *data;
 } t_fractol;

@@ -3,6 +3,8 @@
 
 /*
 ** todo: have a special renderer thread that renders in 1/4 resolution to smoothen movement
+ * todo: update: render at low-res at first
+ * todo: sin(z) + c?
 */
 
 void t_fractol_init(t_fractol *f, int w, int h)
@@ -13,40 +15,42 @@ void t_fractol_init(t_fractol *f, int w, int h)
 	f->h = h;
 	f->data = ft_memalloc(sizeof(t_fractol_pix) * w * h);
 	f->color_cache = malloc(sizeof(uint) * MAX_ITER);
+	f->lod = 0;
 	i = -1;
 	while (++i < MAX_ITER)
 		f->color_cache[i] = hue_spiral(i);
 	t_ies_init(&f->ies);
 }
 
-void t_fractol_iteration(t_fractol *f, t_thread_id ti)
+static void iterate_pixel(t_fractol *f, int i, int j)
 {
-	int n;
-	int i;
 	uint k;
 	t_fractol_pix *p;
-	int tc; //todo: make benchmark to see how much struct field access costs;
 
-	n = f->w * f->h;
-	tc = ti.c;
-	i = -tc + ti.i;
-	while ((i += tc) < n)
-	{
-		p = &f->data[i];
-		if (p->stop)
-			continue;
-		k = (p->i << 2) + 1;
-		if (k > 0x20)
-			k = 0x20;
-		while (k--)
+	p = &f->data[f->w * j + i];
+	if (p->stop)
+		return;
+	k = (p->i << 2) + 1;
+	if (k > 0x20)
+		k = 0x20;
+	while (k--)
+		if (t_fractol_pix_iteration(p) == INT_MAX)
 		{
-			if (t_fractol_pix_iteration(p) == INT_MAX)
-			{
-				t_ies_add(&f->ies, p->i);
-				break;
-			}
+			t_ies_add(&f->ies, p->i);
+			break;
 		}
-	}
+}
+
+void t_fractol_iteration(t_fractol *f, t_thread_id ti)
+{
+	int i;
+	int j;
+	int lod_step = 1 << f->lod;
+	//todo: make benchmark to see how much struct field access costs;
+
+	for (i = ti.i; i < f->w; i += ti.c)
+		for (j = 0; j < f->h; ++j)
+			iterate_pixel(f, i, j);
 }
 
 void t_fractol_draw(t_fractol *f, t_framebuffer *fb)
@@ -100,11 +104,9 @@ void t_fractol_reset(t_fractol *f, t_cam *cam, t_thread_id ti)
 	if (!ti.i)
 		t_ies_reset(&f->ies);
 	angle = cam->rot_angle / 100;
-	j = -1;
-	while (++j < f->h)
+	for (i = ti.i; i < f->w; i += ti.c)
 	{
-		i = (ti.i + j * w) % ti.c;
-		while (i < w)
+		for (j = 0; j < f->h; ++j)
 		{
 			c = t_vec_transform((t_vec){i, j}, m);
 			z = (t_vec){0, .6357 * sin(angle), 0};
@@ -112,7 +114,6 @@ void t_fractol_reset(t_fractol *f, t_cam *cam, t_thread_id ti)
 			t_fractol_pix_reset(&f->data[j * w + i],
 								*(t_complex *)&z,
 								*(t_complex *)&c);
-			i += ti.c;
 		}
 	}
 }
