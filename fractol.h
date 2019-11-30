@@ -1,9 +1,9 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# define WIN_W 800
-# define WIN_H 600
-# define FRAME_RATE 10
+# define WIN_W 1200
+# define WIN_H 800
+# define FRAME_RATE 20
 # define FRAME_TIME 1./FRAME_RATE
 
 # define MLX_EVEN_KEY_PRESS 2
@@ -36,6 +36,11 @@
 # define KEY_E 14
 # define KEY_Z 6
 # define KEY_X 7
+# define KEY_C 8
+# define KEY_V 9
+# define KEY_B 11
+# define KEY_N 45
+# define KEY_M 46
 # define KEY_ESC 53
 # define KEY_I 34
 # define KEY_P 35
@@ -45,6 +50,7 @@
 # define KEY_END 119
 
 # define MAX_ITER 2048
+# define DEFAULT_LOD 4
 
 #include "libft.h"
 #include "ft_linalg.h"
@@ -107,6 +113,7 @@ typedef struct
 	int h;
 	uint *color_cache;
 	int lod;
+	uint stop_count;
 	t_it_estimator ies;
 	t_fractol_pix *data;
 } t_fractol;
