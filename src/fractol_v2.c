@@ -19,10 +19,10 @@ void fractol_renderer(t_app *app, t_thread_id ti)
 	mask_inverted = mask ^ 0xFFFFFFFF;
 	while (!app->shutdown)
 	{
-		if (app->cam.is_changed & mask && !ti.i)
+		if (app->cam.is_changed & mask)
 		{
-			t_fractol_reset(&app->fractol, &app->cam);
 			app->cam.is_changed &= mask_inverted;
+			t_fractol_reset(&app->fractol, &app->cam, ti);
 		}
 		t_fractol_iteration(&app->fractol, ti);
 	}

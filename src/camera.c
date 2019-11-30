@@ -8,7 +8,7 @@ void t_cam_init(t_cam *cam, int w, int h)
 	t_mat_reset(&cam->m);
 	cam->zoom = 0;
 	cam->rot_angle = 0;
-	cam->is_changed = 1;
+	cam->is_changed = 0xFFFFFFFF;
 	scale_factor = exp((double)cam->zoom / 100.);
 	cam->m.data[0][0] = scale_factor;
 	cam->m.data[1][1] = scale_factor;
@@ -26,14 +26,14 @@ void t_cam_move(t_cam *cam, t_controller *c, double dt)
 
 	if (!(c->du || c->dx || c->dy || c->dv || c->dz || c->d_yaw))
 		return;
-	cam->zoom += c->dz;
-	scale_factor = exp((double)cam->zoom / 100.);
+	cam->zoom += dt * c->dz;
+	scale_factor = exp(cam->zoom / 2.);
 	step = dt * scale_factor * .6;
 	cam->m.data[0][3] -= step * c->dx;
 	cam->m.data[1][3] -= step * c->dy;
 	cam->m.data[0][0] = scale_factor;
 	cam->m.data[1][1] = scale_factor;
 	if (c->d_yaw)
-		cam->rot_angle += c->d_yaw;
+		cam->rot_angle += dt * 10. * c->d_yaw;
 	cam->is_changed = 0xFFFFFFFF;
 }

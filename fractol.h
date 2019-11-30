@@ -3,7 +3,7 @@
 
 # define WIN_W 800
 # define WIN_H 600
-# define FRAME_RATE 120
+# define FRAME_RATE 5
 # define FRAME_TIME 1./FRAME_RATE
 
 # define MLX_EVEN_KEY_PRESS 2
@@ -81,8 +81,8 @@ typedef struct
 typedef struct
 {
 	uint is_changed;
-	int zoom;
-	int rot_angle;
+	double zoom;
+	double rot_angle;
 	t_mat m; //model-view for re axis
 	t_mat d; //display
 } t_cam;
@@ -145,7 +145,7 @@ void t_fractol_pix_reset(t_fractol_pix *pix, t_complex z, t_complex c);
 int t_fractol_pix_iteration(t_fractol_pix *p);
 
 void t_fractol_init(t_fractol *f, int w, int h);
-void t_fractol_reset(t_fractol *f, t_cam *cam);
+void t_fractol_reset(t_fractol *f, t_cam *cam, t_thread_id ti);
 void t_fractol_draw(t_fractol *f, t_framebuffer *fb);
 void t_fractol_iteration(t_fractol *f, t_thread_id ti);
 

@@ -3,7 +3,6 @@
 
 /*
 ** todo: have a special renderer thread that renders in 1/4 resolution to smoothen movement
-** todo: reset in a threads
 */
 
 void t_fractol_init(t_fractol *f, int w, int h)
@@ -86,7 +85,7 @@ static void rotate_m_to_j(t_vec *z, t_vec *c, double a)
 	c->y = -tmp.x * si + tmp.y * co;
 }
 
-void t_fractol_reset(t_fractol *f, t_cam *cam)
+void t_fractol_reset(t_fractol *f, t_cam *cam, t_thread_id ti)
 {
 	int i;
 	int j;
@@ -98,14 +97,14 @@ void t_fractol_reset(t_fractol *f, t_cam *cam)
 
 	m = t_mat_mul_ref(&cam->m, &cam->d);
 	w = f->w;
-	i = -1;
-	t_ies_reset(&f->ies);
-	angle = (double)cam->rot_angle / 100;
-	ft_printf("angle: %f\n", angle);
-	while (++i < w)
+	if (!ti.i)
+		t_ies_reset(&f->ies);
+	angle = cam->rot_angle / 100;
+	j = -1;
+	while (++j < f->h)
 	{
-		j = -1;
-		while (++j < f->h)
+		i = (ti.i + j * w) % ti.c;
+		while (i < w)
 		{
 			c = t_vec_transform((t_vec){i, j}, m);
 			z = (t_vec){0, .6357 * sin(angle), 0};
@@ -113,6 +112,7 @@ void t_fractol_reset(t_fractol *f, t_cam *cam)
 			t_fractol_pix_reset(&f->data[j * w + i],
 								*(t_complex *)&z,
 								*(t_complex *)&c);
+			i += ti.c;
 		}
 	}
 }
