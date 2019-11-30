@@ -1,7 +1,8 @@
 #include "fractol.h"
+#include <math.h>
 
 /*
-** todo: have a pecial renderer thread that renders in 1/4 resolution to smoothen movement
+** todo: have a special renderer thread that renders in 1/4 resolution to smoothen movement
 */
 
 void t_fractol_init(t_fractol *f, int w, int h)
@@ -66,29 +67,49 @@ void t_fractol_draw(t_fractol *f, t_framebuffer *fb)
 	}
 }
 
+static void rotate_m_to_j(t_vec *z, t_vec *c, double a)
+{
+	t_vec tmp;
+	double si;
+	double co;
+
+	si = sin(a);
+	co = cos(a);
+	tmp = (t_vec){z->x, c->x};
+	z->x = tmp.x * co + tmp.y * si;
+	c->x = -tmp.x * si + tmp.y * co;
+	tmp = (t_vec){z->y, c->y};
+	z->y = tmp.x * co + tmp.y * si;
+	c->y = -tmp.x * si + tmp.y * co;
+}
+
 void t_fractol_reset(t_fractol *f, t_cam *cam)
 {
 	int i;
 	int j;
 	int w;
-	t_fractol_pix *pix;
-	t_vec p;
 	t_mat m;
+	t_vec z;
+	t_vec c;
+	double angle;
 
 	m = t_mat_mul_ref(&cam->m, &cam->d);
 	w = f->w;
 	i = -1;
 	t_ies_reset(&f->ies);
+	angle = (double)cam->rot_angle / 100;
+	ft_printf("angle: %f\n", angle);
 	while (++i < w)
 	{
 		j = -1;
 		while (++j < f->h)
 		{
-			p = t_vec_transform((t_vec){i, j, 0}, m);
-			pix = &f->data[j * w + i];
-			t_fractol_pix_reset(pix,
-								(t_complex){0, 0},
-								*(t_complex *)&p);
+			c = t_vec_transform((t_vec){i, j}, m);
+			z = (t_vec){0, .6357 * sin(angle), 0};
+			rotate_m_to_j(&z, &c, angle);
+			t_fractol_pix_reset(&f->data[j * w + i],
+								*(t_complex *)&z,
+								*(t_complex *)&c);
 		}
 	}
 }

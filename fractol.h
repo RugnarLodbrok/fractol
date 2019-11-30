@@ -10,15 +10,15 @@
 # define MLX_EVEN_KEY_RELEASE 3
 # define MLX_EVENT_EXIT 17
 
-#ifdef _WIN32
-# define RED 0x1
-# define GREEN 0x100
-# define BLUE 0x10000
-#else
-# define RED 0x10000
-# define GREEN 0x100
-# define BLUE 0x1
-#endif
+# ifdef _WIN32
+#  define RED 0x1
+#  define GREEN 0x100
+#  define BLUE 0x10000
+# else
+#  define RED 0x10000
+#  define GREEN 0x100
+#  define BLUE 0x1
+# endif
 # define ALPHA 0x1000000
 # define GRAYSCALE 0x010101
 # define WHITE 0xffffff
@@ -81,9 +81,8 @@ typedef struct
 {
 	int is_changed;
 	int zoom;
-	int	rot_angle;
+	int rot_angle;
 	t_mat m; //model-view for re axis
-	t_mat rot; //rotation from mandelbrot to julia
 	t_mat d; //display
 } t_cam;
 

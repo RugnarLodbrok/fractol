@@ -4,7 +4,7 @@
 void t_fractol_pix_reset(t_fractol_pix *pix, t_complex z, t_complex c)
 {
 	pix->c = c;
-	pix->z = c;
+	pix->z = z;
 	pix->i = 0;
 	pix->stop = 0;
 }
