@@ -3,8 +3,10 @@
 
 # define WIN_W 1200
 # define WIN_H 800
-# define FRAME_RATE 20
+# define FRAME_RATE 10
 # define FRAME_TIME 1./FRAME_RATE
+
+# define ZOOM_STEP 1
 
 # define MAX_ITER 2048
 # define DEFAULT_LOD 3
@@ -48,13 +50,32 @@ typedef struct
 
 typedef struct
 {
-	int keyboard[128];
+	void *p;
+	void (*f)(void *c, void *p);
+} t_control_callback;
+
+typedef struct
+{
+	int buttons[8];
+	t_point pos;
+	t_point click_pos[8];
+	t_point release_pos[8];
+	t_control_callback bindings[8];
+	t_control_callback move_bind;
+} t_mouse;
+
+typedef struct
+{
+	char keyboard[128];
+	t_control_callback keyboard_bindings[128];
+	t_mouse	mouse;
 	int dx;
 	int dy;
 	int du;
 	int dv;
 	int dz;
 	int d_yaw;
+
 } t_controller;
 
 typedef struct
@@ -64,6 +85,7 @@ typedef struct
 	double zoom;
 	double rot_angle;
 	t_mat m; //model-view for re axis
+	t_vec click_pos; //used for mouse movement
 	t_mat d; //display
 } t_cam;
 
@@ -115,6 +137,8 @@ void t_app_init(t_app *app, void (*update)(t_app *app, double dt));
 void t_app_up(t_app *app);
 void t_app_run(t_app *app);
 void bind_keys(void *win, t_controller *c);
+void t_ctrl_bind(t_controller *c, int key_code, void (*f)(), void *p);
+void t_ctrl_mouse_bind(t_controller *c, int key_code, void (*f)(), void *p);
 
 void t_framebuffer_init(t_framebuffer *fb, void *mlx, int w, int h);
 void t_framebuffer_clear(t_framebuffer *fb);
@@ -139,5 +163,10 @@ void t_ies_init(t_it_estimator *ies);
 void t_ies_add(t_it_estimator *ies, int i);
 int t_ies_estimate(t_it_estimator *ies);
 void t_ies_reset(t_it_estimator *ies);
+
+void fractol_mouse_lmbc(t_controller *c, t_cam *cam);
+void fractol_mouse_move(t_controller *c, t_cam *cam);
+void fractol_mouse_wheel_up(t_controller *c, t_cam *cam);
+void fractol_mouse_wheel_down(t_controller *c, t_cam *cam);
 
 #endif

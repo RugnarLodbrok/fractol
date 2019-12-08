@@ -24,8 +24,8 @@ add_executable(fractol
 		src/fractol.c
 		src/fractol_pix.c
 		src/it_estimator.c
-#		src/fractol_v1.c
 		src/fractol_v2.c
+		src/mouse_movement.c
 
 		libft/src/string/ft_atoi.c
 		libft/src/string/ft_bzero.c
@@ -118,6 +118,7 @@ add_executable(fractol
 		libft/src/get_next_line.c
 		libft/src/t_buff.c
 		libft/src/endian.c
+		libft/src/swatch.c
 		libft/src/ft_error_exit.c
 
 		libft/src/threading/thread.c

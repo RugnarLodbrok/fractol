@@ -40,6 +40,14 @@ int fractol_main(int fractal_type)
 	if (fractal_type == FRACTOL_MAND_Z2)
 		app.cam.julia_offset.y = -10;
 	renderer = t_tpool_create(7, fractol_renderer, &app);
+	t_ctrl_mouse_bind(&app.controller, MOUSE_B_LEFT,
+			fractol_mouse_lmbc, &app.cam);
+	t_ctrl_mouse_bind(&app.controller, MOUSE_SCROLL_UP,
+					  fractol_mouse_wheel_up, &app.cam);
+	t_ctrl_mouse_bind(&app.controller, MOUSE_SCROLL_DOWN,
+					  fractol_mouse_wheel_down, &app.cam);
+	app.controller.mouse.move_bind.f = (void*)&fractol_mouse_move;
+	app.controller.mouse.move_bind.p = &app.cam;
 	t_app_up(&app);
 	t_pool_start(&renderer);
 	t_app_run(&app);

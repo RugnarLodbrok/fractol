@@ -24,6 +24,7 @@ SRC = \
 		src/fractol_pix.c \
 		src/it_estimator.c \
 		src/fractol_v2.c \
+		src/mouse_movement.c \
 		src/main.c
 
 OPTION = -I. -Ilibft -Iminilibx_macos
@@ -47,7 +48,7 @@ minilibx_macos/libmlx.a :
 	make -C minilibx_macos
 
 run : $(NAME)
-	@./$(NAME)
+	@./$(NAME) julia
 
 clean :
 	rm -f $(OBJ)

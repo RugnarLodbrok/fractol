@@ -117,7 +117,7 @@ void t_fractol_reset(t_fractol *f, t_cam *cam, t_thread_id ti)
 	{
 		for (j = 0; j < f->h; j ++)
 		{
-			c = t_vec_transform((t_vec){i, j, 0}, m);
+			c = t_vec_transform((t_vec){i, j, 0}, &m);
 			f->func_reset(&f->data[j * f->w + i],
 						  *(t_complex *)&z,
 						  *(t_complex *)&c);
