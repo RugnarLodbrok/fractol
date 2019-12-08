@@ -27,8 +27,8 @@ void t_cam_move(t_cam *cam, t_controller *c, double dt)
 	if (!(c->dx || c->dy || c->du || c->dv || c->dz || c->d_yaw))
 		return;
 	cam->zoom += dt * c->dz;
-	cam->julia_offset.x += dt * c->du;
-	cam->julia_offset.y += dt * c->dv;
+	cam->julia_offset.x += dt * c->du * .2;
+	cam->julia_offset.y += dt * c->dv * .01;
 	scale_factor = exp(cam->zoom / 2.);
 	step = dt * scale_factor * .6;
 	cam->m.data[0][3] -= step * c->dx;

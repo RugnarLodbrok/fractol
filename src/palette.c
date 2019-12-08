@@ -3,7 +3,7 @@
 #include "fractol.h"
 
 # define HUE_COUNT 31
-# define SATURATION_FADE 0xFF
+# define SATURATION_FADE 0x1FF
 # define LIGHTNESS_INCRESE 10
 
 uint color_3f(double r, double g, double b)

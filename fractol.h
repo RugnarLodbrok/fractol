@@ -8,7 +8,7 @@
 
 # define ZOOM_STEP 1
 
-# define MAX_ITER 2048
+# define MAX_ITER 4096
 # define DEFAULT_LOD 3
 
 # define FRACTOL_MAND 0
