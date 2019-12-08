@@ -10,11 +10,13 @@ void update(t_app *app, double dt)
 							app->sidebar_w, 0);
 }
 
-void fractol_renderer(t_app *app, t_thread_id ti)
+static void fractol_renderer(void *p, t_thread_id ti)
 {
-	uint mask;
-	uint mask_inverted;
+	uint	mask;
+	uint	mask_inverted;
+	t_app	*app;
 
+	app = p;
 	mask = 1 << ti.i;
 	mask_inverted = mask ^ 0xFFFFFFFF;
 	while (!app->shutdown)
@@ -35,9 +37,11 @@ int fractol_main(int fractal_type)
 
 	t_app_init(&app, update);
 	t_fractol_init(&app.fractol, app.w, app.h, fractal_type);
+	if (fractal_type == FRACTOL_MAND_Z2)
+		app.cam.julia_offset.y = -10;
 	renderer = t_tpool_create(7, fractol_renderer, &app);
 	t_app_up(&app);
-	t_poool_start(&renderer);
+	t_pool_start(&renderer);
 	t_app_run(&app);
 	return (0);
 }

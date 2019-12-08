@@ -76,10 +76,10 @@ void t_fractol_draw(t_fractol *f, t_framebuffer *fb)
 	int i;
 	int j;
 	t_fractol_pix *p;
-	int it_estimation;
+	uint it_estimation;
 	uint mask = (0xFFFFFFFF >> f->lod) << f->lod;
 
-	it_estimation = t_ies_estimate(&f->ies);
+	it_estimation = (uint)t_ies_estimate(&f->ies);
 	for (i = 0; i < f->w; i++)
 	{
 		for (j = 0; j < f->h; j++)
@@ -92,22 +92,6 @@ void t_fractol_draw(t_fractol *f, t_framebuffer *fb)
 		}
 	}
 	next_lod_check(f);
-}
-
-static void rotate_m_to_j(t_vec *z, t_vec *c, double a)
-{
-	t_vec tmp;
-	double si;
-	double co;
-
-	si = sin(a);
-	co = cos(a);
-	tmp = (t_vec){z->x, c->x};
-	z->x = tmp.x * co + tmp.y * si;
-	c->x = -tmp.x * si + tmp.y * co;
-	tmp = (t_vec){z->y, c->y};
-	z->y = tmp.x * co + tmp.y * si;
-	c->y = -tmp.x * si + tmp.y * co;
 }
 
 void t_fractol_reset(t_fractol *f, t_cam *cam, t_thread_id ti)
@@ -133,7 +117,7 @@ void t_fractol_reset(t_fractol *f, t_cam *cam, t_thread_id ti)
 	{
 		for (j = 0; j < f->h; j ++)
 		{
-			c = t_vec_transform((t_vec){i, j}, m);
+			c = t_vec_transform((t_vec){i, j, 0}, m);
 			f->func_reset(&f->data[j * f->w + i],
 						  *(t_complex *)&z,
 						  *(t_complex *)&c);

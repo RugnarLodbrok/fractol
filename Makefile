@@ -17,7 +17,13 @@ FLAGS = -Wall -Wextra -Werror
 SRC = \
 		src/app.c \
 		src/controller.c \
+		src/camera.c \
 		src/framebuffer.c \
+		src/palette.c \
+		src/fractol.c \
+		src/fractol_pix.c \
+		src/it_estimator.c \
+		src/fractol_v2.c \
 		src/main.c
 
 OPTION = -I. -Ilibft -Iminilibx_macos
