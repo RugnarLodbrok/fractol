@@ -18,16 +18,23 @@ void fractol_mouse_move(t_controller *c, t_cam *cam)
 	t_vec pos;
 	t_mat m;
 
-	if (!c->mouse.buttons[MOUSE_B_LEFT])
-		return;
-	m = t_mat_mul_ref(&cam->m, &cam->d);
-	pos = t_vec_transform((t_vec){
-			c->mouse.pos.x,
-			c->mouse.pos.y,
-			0
-	}, &m);
-	t_mat_translate(&cam->m, t_vec_sub(cam->click_pos, pos));
-	cam->is_changed = 0xFFFFFFFF;
+	if (c->mouse.buttons[MOUSE_B_RIGHT])
+	{
+		cam->julia_offset.x = (double)c->mouse.pos.x / 100;
+		cam->julia_offset.y = (double)c->mouse.pos.y / 500 - 1;
+		cam->is_changed = 0xFFFFFFFF;
+	}
+	else if (c->mouse.buttons[MOUSE_B_LEFT])
+	{
+		m = t_mat_mul_ref(&cam->m, &cam->d);
+		pos = t_vec_transform((t_vec){
+				c->mouse.pos.x,
+				c->mouse.pos.y,
+				0
+		}, &m);
+		t_mat_translate(&cam->m, t_vec_sub(cam->click_pos, pos));
+		cam->is_changed = 0xFFFFFFFF;
+	}
 }
 
 static void zoom(t_controller *c, t_cam *cam, double v)
