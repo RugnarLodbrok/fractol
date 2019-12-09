@@ -75,7 +75,7 @@ static int t_controller_mouse_move(int x, int y, t_controller *c)
 {
 	c->mouse.pos = (t_point){x, y};
 	if (c->mouse.move_bind.f)
-		c->mouse.move_bind.f(c, c->mouse.move_bind.p);
+		c->mouse.move_bind.f(c->mouse.move_bind.p, c);
 	return (0);
 }
 

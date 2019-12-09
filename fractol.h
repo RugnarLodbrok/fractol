@@ -26,6 +26,7 @@
 # define HELP2 "\t- mandelbrot\n\t- julia\n\t- mandelbrot_sin\n\t- julia_sin"
 # define HELP HELP1 HELP2
 
+#include <time.h>
 #include "libft.h"
 #include "ft_linalg.h"
 #include "threading.h"
@@ -86,6 +87,7 @@ typedef struct
 	double rot_angle;
 	t_mat m; //model-view for re axis
 	t_vec click_pos; //used for mouse movement
+	clock_t clock;
 	t_mat d; //display
 } t_cam;
 
@@ -165,7 +167,7 @@ int t_ies_estimate(t_it_estimator *ies);
 void t_ies_reset(t_it_estimator *ies);
 
 void fractol_mouse_lmbc(t_controller *c, t_cam *cam);
-void fractol_mouse_move(t_controller *c, t_cam *cam);
+void fractol_mouse_move(t_cam *cam, t_controller *c);
 void fractol_mouse_wheel_up(t_controller *c, t_cam *cam);
 void fractol_mouse_wheel_down(t_controller *c, t_cam *cam);
 

@@ -13,11 +13,16 @@ void fractol_mouse_lmbc(t_controller *c, t_cam *cam)
 	}, &m);
 }
 
-void fractol_mouse_move(t_controller *c, t_cam *cam)
+void fractol_mouse_move(t_cam *cam, t_controller *c)
 {
 	t_vec pos;
 	t_mat m;
+	clock_t now;
 
+	now = clock();
+	if ((double)(now - cam->clock) / CLOCKS_PER_SEC < FRAME_TIME)
+		return;
+	cam->clock = now;
 	if (c->mouse.buttons[MOUSE_B_RIGHT])
 	{
 		cam->julia_offset.x = (double)c->mouse.pos.x / 100;
