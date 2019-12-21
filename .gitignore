@@ -3,6 +3,7 @@ cmake-build-debug
 *.o
 *.a
 *.exe
+*.lib
 */.DS_Store
 minilibx_macos
 fractol

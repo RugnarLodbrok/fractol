@@ -3,10 +3,6 @@ cmake_minimum_required(VERSION 3.6.2)
 #set(CMAKE_CXX_COMPILER /cygdrive/s/program_files/cygwin/bin/g++.exe CACHE PATH "" FORCE)
 project(fractol C)
 set(CMAKE_C_STANDARD 90)
-include_directories(.)
-include_directories(libft)
-include_directories(headers)
-
 #--------------LIB LINK EXAMPLE---------------------
 #add_executable(<exe_name> sorce1 source2)
 #find_library(FT ft libft)
@@ -132,25 +128,23 @@ add_executable(fractol
 		libft/src/printf/conversion.c
 		libft/src/printf/convert.c
 		libft/src/printf/apply_fw.c
-
-		mlx_glut/src/mlx.c
-		mlx_glut/src/mlx_hook.c
-		mlx_glut/src/mlx_image.c
-		mlx_glut/src/mlx_keys.c
 		)
+
+include_directories(.)
 include_directories(headers)
 include_directories(libft)
+include_directories(mlx_glfw)
+include_directories(mlx_glfw/includes)
 
-include_directories(glut)
-include_directories(mlx_glut)
 target_link_libraries(fractol
-		LINK_PUBLIC ${CMAKE_SOURCE_DIR}/glut/freeglut.lib
-		LINK_PUBLIC ${CMAKE_SOURCE_DIR}/glut/freeglutd.lib)
+		LINK_PRIVATE ${CMAKE_SOURCE_DIR}/glfw3.lib
+		LINK_PRIVATE ${CMAKE_SOURCE_DIR}/mlx_glfw.lib
+		)
 
 #include_directories(minilibx_macos)
 #target_link_libraries(fractol
-#		LINK_PUBLIC ${CMAKE_SOURCE_DIR}/libft/libft.a
-#		LINK_PUBLIC ${CMAKE_SOURCE_DIR}/minilibx_macos/libmlx.a
+#		LINK_PRIVATE ${CMAKE_SOURCE_DIR}/libft/libft.a
+#		LINK_PRIVATE ${CMAKE_SOURCE_DIR}/minilibx_macos/libmlx.a
 #		"-framework OpenGL"
 #		"-framework AppKit"
 #		)

@@ -28,7 +28,7 @@
 
 #include <time.h>
 #include "libft.h"
-#include "ft_linalg.h"
+#include "libft_linalg.h"
 #include "threading.h"
 #include "mlx_consts.h"
 

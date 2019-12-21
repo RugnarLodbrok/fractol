@@ -5,6 +5,7 @@
 static int close_hook(void *param)
 {
 	(void)param;
+	ft_printf("EXIT\n");
 	exit(0);
 }
 
